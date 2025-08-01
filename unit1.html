@@ -1,0 +1,1658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Presentation Skills</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Georgia&display=swap" rel="stylesheet">
+    <style>
+        /* --- Custom Theme Inspired by bus_bench --- */
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #e8d9c6;
+            color: #3b3a36;
+            scroll-behavior: smooth;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            color: #5a4435;
+        }
+        .main-header {
+            background-color: #5a4435;
+            color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .main-header h1 {
+            color: #ffffff;
+        }
+        .main-header a {
+            color: #e8d9c6;
+            transition: color 0.3s ease;
+        }
+        .main-header a:hover {
+            color: #ffffff;
+        }
+        .activity-card {
+            background-color: #f0e6d9;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid #d4c3b0;
+            box-shadow: 0 4px 12px rgba(90, 68, 53, 0.15);
+            transition: all 0.3s ease-in-out;
+        }
+        .activity-card:hover {
+            box-shadow: 0 10px 20px rgba(90, 68, 53, 0.2);
+            transform: translateY(-2px);
+        }
+        .btn-primary {
+            background-color: #9d6b53;
+            color: #ffffff;
+            font-weight: bold;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #7e5642;
+        }
+        .correct {
+            border-color: #5a8b5a !important;
+            background-color: #e8f5e9 !important;
+        }
+        .incorrect {
+            border-color: #c62828 !important;
+            background-color: #ffebf0 !important;
+        }
+        .feedback {
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+            font-family: 'Georgia', serif;
+        }
+        .correct-feedback {
+            color: #38761d;
+        }
+        .incorrect-feedback {
+            color: #a61c00;
+        }
+        .draggable {
+            cursor: grab;
+            user-select: none;
+            background-color: #ffffff;
+            border: 1px solid #d4c3b0;
+        }
+        .drop-zone {
+            border: 2px dashed #bca996;
+            min-height: 50px;
+            transition: background-color 0.2s;
+            background-color: rgba(255,255,255,0.3);
+            display: inline-block;
+            padding: 0.5rem;
+            min-width: 80px;
+            vertical-align: middle;
+        }
+        .drop-zone.over {
+            background-color: #d4c3b0;
+        }
+        .match-item {
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid #d4c3b0;
+            background-color: #fff;
+        }
+        .match-item:hover {
+            border-color: #9d6b53;
+            background-color: #faf6f1;
+        }
+        .match-item.selected {
+            background-color: #9d6b53;
+            color: white;
+            border-color: #7e5642;
+        }
+        .matched {
+            background-color: #dcfce7 !important;
+            color: #15803d !important;
+            border-color: #22c55e !important;
+            cursor: default !important;
+        }
+        .main-footer {
+            background-color: #5a4435;
+            color: #e8d9c6;
+        }
+        input[type="text"] {
+            background-color: transparent;
+            border-bottom: 2px solid #bca996;
+            width: 100%;
+        }
+        input[type="text"]:focus {
+            border-bottom-color: #7e5642;
+            outline: none;
+        }
+        .hidden {
+            display: none;
+        }
+        audio {
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+        .highlight {
+            background-color: #fef3c7; /* amber-100 */
+            padding: 0 0.25rem;
+            border-radius: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Title Slide -->
+    <section id="title-slide" class="h-screen flex flex-col justify-center items-center text-center p-8">
+        <div class="activity-card p-8 md:p-16 text-center">
+            <h1 class="text-6xl md:text-7xl font-bold mb-4" style="color: #5a4435;">English for Presentations</h1>
+            <h2 class="text-4xl md:text-5xl font-bold mb-8" style="color: #7e5642;">Unit 1</h2>
+            <button id="start-activities-btn" class="btn-primary text-xl px-8 py-3 mt-4">Start Activities</button>
+        </div>
+    </section>
+
+    <!-- Main Content Wrapper -->
+    <div id="main-content" class="hidden">
+        <!-- Header -->
+        <header class="main-header sticky top-0 z-50">
+            <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+                <h1 class="text-2xl font-bold">English for Presentations: Unit 1</h1>
+                <nav class="hidden md:flex space-x-4">
+                    <a href="#starter">Starter</a>
+                    <a href="#activity-1">Welcoming</a>
+                    <a href="#activity-2">Structuring</a>
+                    <a href="#activity-3">Ordering</a>
+                    <a href="#structuring-info-1">Info (1)</a>
+                    <a href="#sentence-completion">Completion</a>
+                    <a href="#structuring-info-2">Info (2)</a>
+                    <a href="#structuring-activity-3">Structuring (3)</a>
+                    <a href="#prepositions-practice">Prepositions</a>
+                    <a href="#listening-ordering">Listen & Order</a>
+                    <a href="#point-ordering">Point Order</a>
+                    <a href="#replacing-phrases">Replacing</a>
+                    <a href="#organization-info">Organization</a>
+                    <a href="#matching-sentences">Matching</a>
+                    <a href="#listening-completion">Listen & Complete</a>
+                    <a href="#attention-grabbing-openings">Openings</a>
+                    <a href="#activity-5">Attention Grabbers</a>
+                    <a href="#word-order-practice">Word Order</a>
+                    <a href="#checklist">Checklist</a>
+                    <a href="#presentation-openings">Openings</a>
+                    <a href="#dealing-with-nervousness">Nervousness</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-6 py-8">
+
+            <!-- Introduction -->
+            <div class="text-center mb-12">
+                <h2 class="text-5xl font-bold mb-2">Let's Get Started</h2>
+                <p class="text-lg text-gray-700">Practice the key language for opening a presentation with these interactive exercises.</p>
+            </div>
+            
+            <!-- Starter Section -->
+            <section id="starter" class="activity-card">
+                <h3 class="text-2xl font-semibold mb-4">Starter</h3>
+                <div class="flex flex-col md:flex-row gap-8 items-center">
+                    <div class="w-full md:w-1/2">
+                        <img src="https://johanka2014.github.io/presentations/presentations_1.png" alt="Business people in various presentation scenarios." class="rounded-lg shadow-md w-full">
+                    </div>
+                    <div class="w-full md:w-1/2">
+                        <p class="mb-4">Work with a partner. Ask the questions below and make a note of the answers. Then tell the group what you found out and discuss.</p>
+                        <ul class="list-disc list-inside space-y-2 text-left">
+                            <li>How often do you give presentations in your job?</li>
+                            <li>Who do you normally present to? (Colleagues, customers, other firms, etc.)</li>
+                            <li>When was the last time you gave a presentation in English? Was it a success? If yes, why? If not, why not? Explain your answer.</li>
+                            <li>How do you feel about presenting in a foreign language?</li>
+                            <li>Think of an excellent (or terrible) presentation that you have attended. What made it good (or bad)?</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Activity 1: Fill in the Blanks (with Audio) -->
+            <section id="activity-1" class="activity-card">
+                <h3 class="text-2xl font-semibold mb-4">1. Welcoming the Audience</h3>
+                <p class="text-gray-700 mb-6">Listen to the audio clips and complete the opening sentences from the presentations below. Based on Exercise 2, Page 6.</p>
+                
+                <!-- Audio Players -->
+                <div class="space-y-4 mb-8">
+                    <div>
+                        <label for="audio1" class="font-semibold">Presentation 1</label>
+                        <audio id="audio1" controls src="https://johanka2014.github.io/presentations/02.mp3"></audio>
+                    </div>
+                    <div>
+                        <label for="audio2" class="font-semibold">Presentation 2</label>
+                        <audio id="audio2" controls src="https://johanka2014.github.io/presentations/03.mp3"></audio>
+                    </div>
+                    <div>
+                        <label for="audio3" class="font-semibold">Presentation 3</label>
+                        <audio id="audio3" controls src="https://johanka2014.github.io/presentations/04.mp3"></audio>
+                    </div>
+                </div>
+
+                <!-- Fill in the blanks container -->
+                <div id="fill-in-blanks-container">
+                    <!-- JS will inject grouped sentences here -->
+                </div>
+
+                <button id="check-fill-in-blanks" class="mt-6 btn-primary">Check Answers</button>
+            </section>
+
+            <!-- Activity 2: Drag and Drop Categorization -->
+            <section id="activity-2" class="activity-card">
+                <h3 class="text-2xl font-semibold mb-4">2. Categorizing Phrases</h3>
+                <p class="text-gray-700 mb-6">Drag and drop the phrases into the correct category. Based on Exercise 3, Page 6.</p>
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div id="phrase-bank" class="w-full md:w-1/3 p-4 rounded-lg" style="background-color: #e8d9c6;">
+                        <h4 class="font-semibold mb-2 text-center">Phrase Bank</h4>
+                        <!-- Draggable phrases will be injected here -->
+                    </div>
+                    <div id="categories" class="w-full md:w-2/3 space-y-4">
+                        <!-- Drop zones will be injected here -->
+                    </div>
+                </div>
+                 <button id="check-drag-drop" class="mt-6 btn-primary">Check Order</button>
+                 <p id="drag-drop-feedback" class="mt-2 text-sm font-medium"></p>
+            </section>
+
+            <!-- Activity 3: Matching Formal and Informal -->
+            <section id="activity-3" class="activity-card">
+                <h3 class="text-2xl font-semibold mb-4">3. Formal vs. Informal</h3>
+                <p class="text-gray-700 mb-6">Match the more formal phrases with their less formal equivalents. Click a phrase in the first column, then its match in the second. Based on Exercise 4, Page 7.</p>
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div class="w-full md:w-1/2">
+                        <h4 class="font-semibold mb-2 text-center">More Formal</h4>
+                        <div id="formal-phrases" class="space-y-2">
+                            <!-- Formal phrases will be injected here -->
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2">
+                        <h4 class="font-semibold mb-2 text-center">Less Formal</h4>
+                        <div id="informal-phrases" class="space-y-2">
+                            <!-- Informal phrases will be injected here -->
+                        </div>
+                    </div>
+                </div>
+                <p id="matching-feedback" class="mt-4 text-center font-semibold"></p>
+            </section>
+            
+            <!-- Activity 4: Ordering a Presentation Opening -->
+            <section id="activity-4" class="activity-card">
+                <h3 class="text-2xl font-semibold mb-4">4. Ordering an Introduction</h3>
+                <p class="text-gray-700 mb-6">The opening of a presentation is mixed up. Drag and drop the sentences into the correct order. Based on Exercise 9, Page 10.</p>
+                
+                <div class="bg-[#f5f0e9] border border-[#d4c3b0] p-4 rounded-lg mb-6 text-center">
+                    <h4 class="font-semibold text-lg mb-2 text-[#7e5642]">Top Tip: A good opening follows this flow:</h4>
+                    <p class="text-lg text-[#3b3a36]">
+                        Welcome audience → Introduce yourself → Say what the topic is → Explain why the audience will be interested
+                    </p>
+                </div>
+
+                <div id="ordering-container" class="p-4 rounded-lg space-y-2" style="background-color: #e8d9c6;">
+                    <!-- Orderable sentences will be injected here -->
+                </div>
+                <button id="check-ordering" class="mt-6 btn-primary">Check Order</button>
+                <p id="ordering-feedback" class="mt-2 text-sm font-medium"></p>
+            </section>
+
+            <!-- Structuring Info Section 1 -->
+            <section id="structuring-info-1" class="activity-card">
+                <h3 class="text-2xl font-semibold mb-4">Structuring a Presentation (1)</h3>
+                <div class="w-full">
+                    <p class="mb-4">Most formal - and many informal - presentations have three main parts and follow this simple formula:</p>
+                    <ul class="list-none space-y-2 mb-6">
+                        <li><strong>1</strong> Tell the audience what you are going to say! = <strong>Introduction</strong></li>
+                        <li><strong>2</strong> Say it! = <strong>Main part</strong></li>
+                        <li><strong>3</strong> Tell them what you said! = <strong>Conclusion</strong></li>
+                    </ul>
+                    <p class="mb-4">There are several ways you can tell the audience what you are going to say.</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-bold">would like + infinitive</h4>
+                            <p class="italic">Today I'd like to tell you about our new plans.</p>
+                            <p class="italic">This morning I'd like to bring you up to date on our department.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">will + infinitive</h4>
+                            <p class="italic">I'll begin by explaining the function.</p>
+                            <p class="italic">I'll start off by reviewing our progress.</p>
+                            <p class="italic">After that, I'll move on to my next point.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">going to + infinitive</h4>
+                            <p class="italic">I'm going to talk to you today about new developments in the R & D Department.</p>
+                            <p class="italic">This afternoon I'm going to be reporting on the new division.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-bold">will be + verb-ing</h4>
+                            <p class="italic">I'll be talking about our guidelines for Internet use.</p>
+                            <p class="italic">During the next hour we'll be looking at the advantages of this system.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sentence Completion Activity -->
+            <section id="sentence-completion" class="activity-card">
+                <h3 class="text-2xl font-semibold mb-4">6. Sentence Completion</h3>
+                <p class="text-gray-700 mb-6">Complete sentences 1-8 with the correct form of the verb and a sentence ending from below. Click a sentence start, then its matching end.</p>
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div class="w-full md:w-1/2">
+                        <h4 class="font-semibold mb-2 text-center">Sentence Start</h4>
+                        <div id="sentence-starts" class="space-y-2">
+                            <!-- Sentence starts will be injected here -->
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2">
+                        <h4 class="font-semibold mb-2 text-center">Sentence End</h4>
+                        <div id="sentence-ends" class="space-y-2">
+                            <!-- Sentence ends will be injected here -->
+                        </div>
+                    </div>
+                </div>
+                <p id="completion-feedback" class="mt-4 text-center font-semibold"></p>
+            </section>
+
+            <!-- Structuring Info Section 2 -->
+            <section id="structuring-info-2" class="activity-card">
+                <h3 class="text-2xl font-semibold mb-4">Structuring a Presentation (2)</h3>
+                <div class="flex flex-col md:flex-row gap-8 items-start">
+                    <div class="w-full md:w-1/2">
+                        <p class="mb-4">The purpose of the introduction is not only to tell the audience who you are, what the talk is about, and why it is relevant to them; you also want to tell the audience (briefly) how the talk is structured. Here are some useful phrases to talk about the structure.</p>
+                        <ul class="list-none space-y-2 italic">
+                            <li><strong>I've divided my presentation into three (main) parts:</strong> x, y, and z.</li>
+                            <li><strong>In my presentation I'll focus on</strong> three major issues.</li>
+                            <li><strong>First (of all), I'll be looking at ..., second ..., and third ...</strong></li>
+                            <li><strong>I'll begin / start off by</strong> explaining ...</li>
+                            <li><strong>Then / Next / After that, I'll go on to ...</strong></li>
+                            <li><strong>Finally, I'll offer</strong> some solutions.</li>
+                        </ul>
+                        <div class="bg-[#f5f0e9] border border-[#d4c3b0] p-4 rounded-lg mt-6">
+                            <p class="text-[#3b3a36]">The most common way to structure a presentation is to have three main parts, and then subdivide them into (three) smaller sections.</p>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2">
+                        <img src="https://johanka2014.github.io/presentations/presentations_2.png" alt="A person giving a presentation to an audience." class="rounded-lg shadow-md w-full">
+                    </div>
+                </div>
+            </section>
+
+             <!-- Structuring Activity 3 -->
+            <section id="structuring-activity-3" class="activity-card">
+                <h3 class="text-2xl font-semibold mb-4">Structuring a Presentation (3)</h3>
+                <p class="text-gray-700 mb-6">Complete the sentences with the words from the box. Drag and drop the words into the correct gaps.</p>
+                <div id="word-bank-structuring" class="flex flex-wrap gap-2 bg-[#f5f0e9] p-4 rounded-lg mb-6">
+                    <!-- Words will be injected here -->
+                </div>
+                <div id="structuring-sentences" class="space-y-4">
+                    <!-- Sentences with drop zones will be injected here -->
+                </div>
+                <button id="check-structuring-activity" class="mt-6 btn-primary">Check Answers</button>
+            </section>
+
+            <!-- Prepositions Practice Activity -->
+            <section id="prepositions-practice" class="activity-card">
+                <h3 class="text-2xl font-semibold mb-4">Prepositions Practice</h3>
+                <p class="text-gray-700 mb-6">Complete the sentences with the prepositions in the box. Drag and drop the words into the correct gaps.</p>
+                <div id="word-bank-prepositions" class="flex flex-wrap gap-2 bg-[#f5f0e9] p-4 rounded-lg mb-6">
+                    <!-- Prepositions will be injected here -->
+                </div>
+                <div id="prepositions-sentences" class="space-y-4">
+                    <!-- Sentences with drop zones will be injected here -->
+                </div>
+                <button id="check-prepositions-activity" class="mt-6 btn-primary">Check Answers</button>
+            </section>
+
+            <!-- Listening and Ordering Activity -->
+            <section id="listening-ordering" class="activity-card">
+                <h3 class="text-2xl font-semibold mb-4">Listening and Ordering</h3>
+                <p class="text-gray-700 mb-6">The project manager of a construction company is giving a presentation to his colleagues. Put the sentences in the right order. Then listen and check.</p>
+                <audio controls src="https://johanka2014.github.io/presentations/05.mp3" class="w-full mb-6"></audio>
+                <div id="listening-ordering-container" class="p-4 rounded-lg space-y-2" style="background-color: #e8d9c6;">
+                    <!-- Draggable sentences for ordering -->
+                </div>
+                <button id="check-listening-order" class="mt-6 btn-primary">Check Order</button>
+                <p id="listening-ordering-feedback" class="mt-2 text-sm font-medium"></p>
+            </section>
+
+            <!-- Point Ordering Activity -->
+            <section id="point-ordering" class="activity-card">
+                <h3 class="text-2xl font-semibold mb-4">Point Ordering</h3>
+                <p class="text-gray-700 mb-6">Now put these points in the order in which Gordon mentions them.</p>
+                <div id="point-ordering-container" class="p-4 rounded-lg space-y-2" style="background-color: #e8d9c6;">
+                    <!-- Draggable points for ordering -->
+                </div>
+                <button id="check-point-order" class="mt-6 btn-primary">Check Order</button>
+                <p id="point-ordering-feedback" class="mt-2 text-sm font-medium"></p>
+            </section>
+
+            <!-- Replacing Phrases Activity -->
+            <section id="replacing-phrases" class="activity-card">
+                <h3 class="text-2xl font-semibold mb-4">Replacing Phrases</h3>
+                <p class="text-gray-700 mb-6">Look again at these sentences from the presentation and replace the highlighted words with words or phrases from the box.</p>
+                <div id="word-bank-replacing" class="flex flex-wrap gap-2 bg-[#f5f0e9] p-4 rounded-lg mb-6">
+                    <!-- Words for replacing will be injected here -->
+                </div>
+                <div id="replacing-sentences" class="space-y-4">
+                    <!-- Sentences for replacing will be injected here -->
+                </div>
+                <button id="check-replacing-activity" class="mt-6 btn-primary">Check Answers</button>
+            </section>
+
+            <!-- Organization Info Section -->
+            <section id="organization-info" class="activity-card">
+                <h3 class="text-2xl font-semibold mb-4">Organization</h3>
+                <p class="mb-6">The final part of the introduction deals with the organization of the talk: how long it will last, whether there will be handouts, and how questions will be handled.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <h4 class="font-bold text-lg">Timing</h4>
+                        <ul class="list-disc list-inside mt-2">
+                            <li>My presentation will take about 20 minutes.</li>
+                            <li>It should take about 30 minutes to cover these issues.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-lg">Handouts</h4>
+                        <ul class="list-disc list-inside mt-2">
+                            <li>Does everybody have a handout/brochure/report? Please take one, and pass them on.</li>
+                            <li>Don't worry about taking notes. I've put all the important statistics on a handout for you.</li>
+                            <li>I'll be handing out copies of the PowerPoint slides at the end of my talk.</li>
+                            <li>I'll email the PowerPoint presentation to you.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-lg">Questions</h4>
+                        <ul class="list-disc list-inside mt-2">
+                            <li>There will be time for questions after my presentation.</li>
+                            <li>If you have any questions, feel free to interrupt me at any time.</li>
+                            <li>Feel free to ask questions at any time during my talk.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Matching Sentences Activity -->
+            <section id="matching-sentences" class="activity-card">
+                <h3 class="text-2xl font-semibold mb-4">Matching Sentences</h3>
+                <p class="text-gray-700 mb-6">Match the two parts to make typical sentences from the introduction.</p>
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div class="w-full md:w-1/2">
+                        <h4 class="font-semibold mb-2 text-center">Sentence Start</h4>
+                        <div id="matching-starts" class="space-y-2">
+                            <!-- Sentence starts will be injected here -->
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2">
+                        <h4 class="font-semibold mb-2 text-center">Sentence End</h4>
+                        <div id="matching-ends" class="space-y-2">
+                            <!-- Sentence ends will be injected here -->
+                        </div>
+                    </div>
+                </div>
+                <p id="matching-sentences-feedback" class="mt-4 text-center font-semibold"></p>
+            </section>
+
+            <!-- Listening Completion Activity -->
+            <section id="listening-completion" class="activity-card">
+                <h3 class="text-2xl font-semibold mb-4">Listening Completion</h3>
+                <p class="text-gray-700 mb-6">Listen again and complete the sentences.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <audio controls src="https://johanka2014.github.io/presentations/06.mp3"></audio>
+                    <audio controls src="https://johanka2014.github.io/presentations/07.mp3"></audio>
+                    <audio controls src="https://johanka2014.github.io/presentations/08.mp3"></audio>
+                    <audio controls src="https://johanka2014.github.io/presentations/09.mp3"></audio>
+                </div>
+                <div id="listening-completion-sentences" class="space-y-4">
+                    <!-- Sentences to complete will be injected here -->
+                </div>
+                 <button id="check-listening-completion" class="mt-6 btn-primary">Check Answers</button>
+            </section>
+
+            <!-- Attention-Grabbing Openings Activity -->
+            <section id="attention-grabbing-openings" class="activity-card">
+                <h3 class="text-2xl font-semibold mb-4">Attention-Grabbing Openings</h3>
+                <p class="text-gray-700 mb-6">Match items from the three columns to make attention-grabbing openings.</p>
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div id="openings-col-1" class="w-full md:w-1/3 space-y-2"></div>
+                    <div id="openings-col-2" class="w-full md:w-1/3 space-y-2"></div>
+                    <div id="openings-col-3" class="w-full md:w-1/3 space-y-2"></div>
+                </div>
+                <p id="attention-openings-feedback" class="mt-4 text-center font-semibold"></p>
+            </section>
+
+            <!-- Activity 5: Attention Grabbers -->
+            <section id="activity-5" class="activity-card">
+                 <h3 class="text-2xl font-semibold mb-4">5. Getting Attention</h3>
+                 <p class="text-gray-700 mb-6">Read the opening lines and identify the technique used to grab the audience's attention. Based on Exercise 12, Page 12.</p>
+                 <div id="attention-grabbers-container" class="space-y-6">
+                     <!-- Questions will be injected here -->
+                 </div>
+                 <button id="check-attention-grabbers" class="mt-6 btn-primary">Check Answers</button>
+            </section>
+
+            <!-- Word Order Practice -->
+            <section id="word-order-practice" class="activity-card">
+                <h3 class="text-2xl font-semibold mb-4">Word Order Practice</h3>
+                <p class="text-gray-700 mb-6">Put the words in the right order to make sentences with expressions from this unit.</p>
+                <div id="word-order-container" class="space-y-8">
+                    <!-- Sentences for reordering will be injected here -->
+                </div>
+                <button id="check-word-order" class="mt-6 btn-primary">Check Answers</button>
+            </section>
+
+            <!-- Checklist -->
+            <section id="checklist" class="activity-card">
+                <h3 class="text-2xl font-semibold mb-4">Checklist for Introductions</h3>
+                <ul class="list-none space-y-2">
+                    <li class="flex items-center"><span class="text-green-600 text-2xl mr-2">✓</span> Welcome the audience.</li>
+                    <li class="flex items-center"><span class="text-green-600 text-2xl mr-2">✓</span> Introduce yourself (name, position/function).</li>
+                    <li class="flex items-center"><span class="text-green-600 text-2xl mr-2">✓</span> State your topic.</li>
+                    <li class="flex items-center"><span class="text-green-600 text-2xl mr-2">✓</span> Explain why your topic is important for the audience.</li>
+                    <li class="flex items-center"><span class="text-green-600 text-2xl mr-2">✓</span> Outline the structure of your talk.</li>
+                    <li class="flex items-center"><span class="text-green-600 text-2xl mr-2">✓</span> 'What comes when?' say when you'll be dealing with each point.</li>
+                    <li class="flex items-center"><span class="text-green-600 text-2xl mr-2">✓</span> Let the audience know how you're organizing the presentation (handouts, questions, etc.).</li>
+                </ul>
+            </section>
+
+            <!-- Presentation Openings -->
+            <section id="presentation-openings" class="activity-card">
+                <h3 class="text-2xl font-semibold mb-4">Presentation Openings</h3>
+                <p class="text-gray-700 mb-6">Put the notes in the correct order, then prepare two openings of a presentation: a formal one and a less formal one.</p>
+                <div id="presentation-openings-container" class="p-4 rounded-lg space-y-2" style="background-color: #e8d9c6;">
+                    <!-- Draggable notes for ordering -->
+                </div>
+                <button id="check-presentation-openings" class="mt-6 btn-primary">Check Order</button>
+                <p id="presentation-openings-feedback" class="mt-2 text-sm font-medium"></p>
+            </section>
+
+            <!-- Dealing with Nervousness -->
+            <section id="dealing-with-nervousness" class="activity-card">
+                <h3 class="text-2xl font-semibold mb-4">Dealing with Nervousness</h3>
+                <div class="flex flex-col md:flex-row gap-8 items-start">
+                    <div class="w-full md:w-2/3">
+                        <p class="mb-4">The American author Mark Twain once put it like this: 'There are two types of people: those that are nervous and those that are liars.' So, once you accept that (almost) everybody who gives a presentation - whether formal or informal, long or short, to strangers or colleagues - is nervous, then you just need to find ways to deal with nervousness and even learn how to use it to your advantage.</p>
+                        <p class="mb-4">Let's first look at ways to deal with and reduce nervousness.</p>
+                        <ol class="list-decimal list-inside space-y-4">
+                            <li><strong>Prepare well.</strong> 'Failing to prepare is preparing to fail.' Preparation is the key to a successful presentation. Nothing will relax you more than knowing exactly what you want to say and having practised saying it. Make sure you practise your talk until you feel at home with it - then you can concentrate on other things.</li>
+                            <li><strong>Learn to relax.</strong> Doing stretching or breathing exercises before your talk can help you to reduce nervousness. One example: before your presentation, sit comfortably with your back straight. Breathe in slowly, hold your breath for about five seconds, then slowly exhale. You can relax your facial muscles by opening your eyes and mouth wide, then closing them tightly.</li>
+                            <li><strong>Check out the room.</strong> Make yourself familiar with the place where you will be speaking. Arrive early, walk around the room, and make sure everything you need for your talk is there. Practise using any equipment (e.g. microphone, video projector, OHP) you plan to work with.</li>
+                            <li><strong>Know your audience.</strong> If possible, greet your audience as they arrive and chat with them. It will be easier to speak to people who are not complete strangers.</li>
+                            <li><strong>Concentrate on the message.</strong> Try to focus on the message and your audience - not on your own fears.</li>
+                            <li><strong>Visualize success.</strong> Imagine yourself speaking to your audience in a loud and clear voice. Then visualize the audience applauding loudly at the end of your talk as you smile.</li>
+                        </ol>
+                        <p class="mt-4">Use the steps above to reduce nervousness, but also remember that being nervous isn't all bad. Many experienced presenters say that you can also use your nervousness to give you that extra energy that you need to give a good performance.</p>
+                    </div>
+                    <div class="w-full md:w-1/3">
+                        <img src="https://johanka2014.github.io/presentations/presentations_2.png" alt="A person giving a presentation to an audience." class="rounded-lg shadow-md w-full">
+                    </div>
+                </div>
+                <div class="mt-6 border-t border-gray-300 pt-4">
+                    <h4 class="font-bold text-lg">Over to You</h4>
+                    <ul class="list-disc list-inside mt-2 space-y-2">
+                        <li>What other tips can you think of for dealing with nervousness?</li>
+                        <li>How do you deal with nervousness before or during a presentation?</li>
+                        <li>How do you prepare your presentations?</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center py-8 main-footer mt-8">
+            <p>Created from "Oxford English for Presentations" - Unit 1.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // --- Title Slide Logic ---
+            const startBtn = document.getElementById('start-activities-btn');
+            const titleSlide = document.getElementById('title-slide');
+            const mainContent = document.getElementById('main-content');
+
+            startBtn.addEventListener('click', () => {
+                titleSlide.style.display = 'none';
+                mainContent.style.display = 'block';
+            });
+
+
+            // --- Data from Worksheet ---
+            const fillInBlanksData = [
+                {
+                    presentation: "Presentation 1",
+                    sentences: [
+                        { id: 1, text: "First of all, let me ______ you all for being here today.", answer: "thank" },
+                        { id: 2, text: "Let me ________ myself. My name is...", answer: "introduce" },
+                        { id: 3, text: "I'm here today to ________ our new semi-automatic shelving system.", answer: "present" },
+                        { id: 4, text: "My talk is ________ relevant to those of you who are responsible for the different parts we supply.", answer: "particularly" }
+                    ]
+                },
+                {
+                    presentation: "Presentation 2",
+                    sentences: [
+                        { id: 5, text: "I'm happy that so many of you could ____ it today at such short notice.", answer: "make" },
+                        { id: 6, text: "As you can see on the screen, our topic today is project ________.", answer: "documentation" },
+                        { id: 7, text: "This is extremely ________ for all of us who are directly involved in international project management, right?", answer: "relevant" }
+                    ]
+                },
+                {
+                    presentation: "Presentation 3",
+                    sentences: [
+                        { id: 8, text: "I'm aware that you all have very tight ________, so I appreciate you taking the time to come here today.", answer: "schedules" },
+                        { id: 9, text: "As you ________ know, my name is... I'm the new HR manager here at Weston Ltd.", answer: "probably" },
+                        { id: 10, text: "Today's topic will be very important for you as ________, since I'll need your help to evaluate and select candidates for training.", answer: "managers" }
+                    ]
+                }
+            ];
+
+            const categorizationData = {
+                phrases: [
+                    { id: 'p1', text: "I'm here today to present our new semi-automatic shelving system.", category: 'topic' },
+                    { id: 'p2', text: "First of all, let me thank you all for being here today.", category: 'welcome' },
+                    { id: 'p3', text: "Let me introduce myself. My name is...", category: 'intro' },
+                    { id: 'p4', text: "My talk is particularly relevant to those of you who...", category: 'relevance' },
+                    { id: 'p5', "text": "I'm happy that so many of you could make it today.", category: 'welcome' },
+                    { id: 'p6', "text": "Today's topic will be very important for you as...", category: 'relevance' }
+                ],
+                categories: [
+                    { id: 'welcome', title: 'b) Welcoming the audience' },
+                    { id: 'intro', title: 'c) Saying who you are' },
+                    { id: 'topic', title: 'a) Saying what the topic is' },
+                    { id: 'relevance', title: 'd) Saying why the topic is relevant' }
+                ]
+            };
+
+            const matchingData = [
+                { id: 1, formal: "Good afternoon, ladies and gentlemen.", informal: "Hi, everyone." },
+                { id: 2, formal: "Today I would like to...", informal: "What I want to do today is..." },
+                { id: 3, formal: "Let me just start by introducing myself. My name is...", informal: "As you know, I'm..." },
+                { id: 4, formal: "It's a pleasure to welcome you today.", informal: "It's good to see you all here." },
+                { id: 5, formal: "In my presentation I would like to report on...", informal: "Today I'm going to talk about..." },
+                { id: 6, formal: "The topic of today's presentation is...", informal: "In my talk I'll tell you about..." },
+                { id: 7, formal: "I suggest that we begin now.", informal: "OK, shall we get started?" },
+                { id: 8, formal: "I'm aware that you all have very tight schedules...", informal: "I know you are all very busy..." }
+            ];
+            
+            const orderingData = [
+                { id: 1, text: "Hello, everyone.", order: 1 },
+                { id: 2, text: "First of all, let me thank you for coming here today. I'm aware that you're all busy preparing for the annual meeting this week, so I really appreciate you taking the time to be here.", order: 2 },
+                { id: 3, text: "For those of you who don't know me, my name is Gordon Selfridge. I'm the project manager in charge of the Bak Tower building project in Dubai.", order: 3 },
+                { id: 4, text: "This morning I'd like to update you on the current status of work at the construction site. The information I give you today should help you with planning your next steps.", order: 4 },
+                { id: 5, text: "I've divided my presentation into three parts.", order: 5 },
+                { id: 6, text: "I'll start off by showing you some photos of the building site and discussing the progress we've made since January.", order: 6 },
+                { id: 7, text: "Then I'll move on to the problems we're facing with our local suppliers.", order: 7 },
+                { id: 8, text: "I'll end with some ideas for reducing labour costs that we've been looking into.", order: 8 },
+                { id: 9, text: "My talk should take about 30 minutes. Please feel free to interrupt me at any time with questions.", order: 9 },
+                { id: 10, text: "Oh, and don't worry about taking notes. I'll be handing out copies of the PowerPoint slides.", order: 10 }
+            ];
+
+            const sentenceCompletionData = [
+                { id: 1, start: "Today I'd like to give...", end: "you an overview of our present market position." },
+                { id: 2, start: "I'll be showing...", end: "you how the database works." },
+                { id: 3, start: "During the next two hours we'll be talking...", end: "about EU tax reform." },
+                { id: 4, start: "I'd like to bring...", end: "you up to date on SEKO's investment plans." },
+                { id: 5, start: "This afternoon I'm going to report...", end: "on our financial targets for the division." },
+                { id: 6, start: "Today I'd like to update...", end: "you on the proposed training project." },
+                { id: 7, start: "This morning we'll be looking...", end: "at business opportunities in Asia." },
+                { id: 8, start: "Today I'll begin...", end: "by telling you about what Jane's group is working on." }
+            ];
+
+            const structuringActivityData = {
+                words: ["after", "all", "areas", "divided", "finally", "start", "then", "third"],
+                sentences: [
+                    { id: 1, text: "I'll be talking to you today about the after-sales service plans we offer. I'll <span data-answer='start'></span> by describing the various packages in detail. <span data-answer='then'></span> I'll go on to show you some case studies. <span data-answer='finally'></span>, I'll discuss how you can choose the best plan to meet your customers' needs." },
+                    { id: 2, text: "I've <span data-answer='divided'></span> my talk into three main parts. First of <span data-answer='all'></span>, I'll tell you something about the history of our company. <span data-answer='after'></span> that I'll describe how the company is structured and finally, I'll give you some details about our range of products and services." },
+                    { id: 3, text: "I'd like to update you on what we've been working on over the last year. I'll focus on three main <span data-answer='areas'></span>: first, our joint venture in Asia; second, the new plant in Charleston. And <span data-answer='third'></span>, our redevelopment project." }
+                ]
+            };
+
+            const prepositionsActivityData = {
+                words: ["about", "at", "for", "into", "of", "on", "to", "with"],
+                sentences: [
+                    { id: 1, text: "Thank you <span data-answer='for'></span> coming all this way." },
+                    { id: 2, text: "I've divided my presentation <span data-answer='into'></span> three parts." },
+                    { id: 3, text: "First of all, I'll give you an overview <span data-answer='of'></span> our financial situation." },
+                    { id: 4, text: "First, we'll be looking <span data-answer='at'></span> the company's sales in the last two quarters." },
+                    { id: 5, text: "In the first part of my presentation I'll focus <span data-answer='on'></span> the current project status." },
+                    { id: 6, text: "Point one deals <span data-answer='with'></span> APG's new regulations for Internet use." },
+                    { id: 7, text: "Secondly, I'll talk <span data-answer='about'></span> our investment in office technology." },
+                    { id: 8, text: "After that I'll move on <span data-answer='to'></span> the next point." }
+                ]
+            };
+
+            const listeningOrderingData = [
+                { id: 'a', text: "This morning I'd like to update you on the current status of work at the construction site. The information I give you today should help you with planning your next steps.", order: 4 },
+                { id: 'b', text: "For those of you who don't know me, my name is Gordon Selfridge. Let me just write that down for you. OK. I'm the project manager in charge of the Bak Tower building project in Dubai.", order: 3 },
+                { id: 'c', text: "I've divided my presentation into three parts.", order: 5 },
+                { id: 'd', text: "Hello, everyone.", order: 1 },
+                { id: 'e', text: "Then I'll move on to the problems we're facing with our local suppliers.", order: 7 },
+                { id: 'f', text: "First of all, let me thank you for coming here today. I'm aware that you're all busy preparing for the annual meeting this week, so I really appreciate you taking the time to be here.", order: 2 },
+                { id: 'g', text: "I'll start off by showing you some photos of the building site and discussing the progress we've made since January.", order: 6 },
+                { id: 'h', text: "My talk should take about 30 minutes. Please feel free to interrupt me at any time with questions.", order: 9 },
+                { id: 'i', text: "I'll end with some ideas for reducing labour costs that we've been looking into.", order: 8 },
+                { id: 'j', text: "Oh, and don't worry about taking notes. I'll be handing out copies of the PowerPoint slides.", order: 10 }
+            ];
+
+            const pointOrderingData = [
+                { id: 'a', text: "reducing labour costs", order: 8 },
+                { id: 'b', text: "welcome & introduction", order: 1 },
+                { id: 'c', text: "30 minutes for presentation", order: 3 },
+                { id: 'd', text: "update on current status", order: 2 },
+                { id: 'e', text: "handout after presentation", order: 4 },
+                { id: 'f', text: "progress made since January", order: 6 },
+                { id: 'g', text: "problems with local suppliers", order: 7 },
+                { id: 'h', text: "questions during presentation OK", order: 5 },
+                { id: 'i', text: "three main parts", order: 9 }
+            ];
+
+            const replacingPhrasesData = {
+                words: ["after that", "begin", "I'm", "realize", "responsible for", "sections", "turn"],
+                sentences: [
+                    { id: 1, text: "I'll <span class='highlight'>start off by</span> showing you ...", answer: "begin" },
+                    { id: 2, text: "I've divided my presentation into three <span class='highlight'>parts</span>.", answer: "sections" },
+                    { id: 3, text: "For those of you who don't know me, <span class='highlight'>my name is</span> Gordon Smith.", answer: "I'm" },
+                    { id: 4, text: "<span class='highlight'>Then I'll move on</span> to the problems ...", answer: "after that" },
+                    { id: 5, text: "I'm the project manager <span class='highlight'>in charge of</span> our Dubai building project.", answer: "responsible for" },
+                    { id: 6, text: "I'm <span class='highlight'>aware that</span> you're all busy preparing for the annual meeting ...", answer: "realize" }
+                ]
+            };
+
+            const matchingSentencesData = [
+                { id: 1, start: "For those of you who don't know me,", end: "I'm Bob Kay in charge of the software division." },
+                { id: 2, start: "Feel free to", end: "ask questions at any time." },
+                { id: 3, start: "This won't take more", end: "than 20 minutes of your time." },
+                { id: 4, start: "I'll be passing out", end: "handouts in a few minutes." },
+                { id: 5, start: "This part of the presentation will take", end: "about 10 minutes." },
+                { id: 6, start: "I'll start off by giving you", end: "an overview of our product range." },
+                { id: 7, start: "There's no need", end: "to take notes. Everything is on the handout." },
+                { id: 8, start: "There will be time", end: "for questions after my talk." }
+            ];
+
+            const listeningCompletionData = [
+                { id: 1, text: "<input type='text' data-answer='i was sitting' class='p-1 w-40'>, I was sitting in the waiting room at the dentist's the other day when I <input type='text' data-answer='read' class='p-1 w-40'> something very interesting in one of the <input type='text' data-answer='magazines' class='p-1 w-40'> that was lying there." },
+                { id: 2, text: "<input type='text' data-answer='suppose' class='p-1 w-40'> you worked in a small to medium-sized company and were <input type='text' data-answer='responsible' class='p-1 w-40'> for making people in your company aware of health and safety issues. How would you <input type='text' data-answer='go about it' class='p-1 w-40'>?" },
+                { id: 3, text: "<input type='text' data-answer='did you know' class='p-1 w-40'> that the number of possible ways of playing the first four moves per side in a game of chess is ...?" },
+                { id: 4, text: "So, let me start by <input type='text' data-answer='asking you a question' class='p-1 w-40'>. Why should we introduce a double quality check here at Auto Spares & Parts ...? Well, I'm here today to <input type='text' data-answer='tell you' class='p-1 w-40'>." }
+            ];
+
+            const attentionGrabbingOpeningsData = [
+                { id: 1, col1: "Did you know that", col2: "American Airlines saved $40,000 in 1987", col3: "by eliminating one olive from each salad served in first-class?" },
+                { id: 2, col1: "I read in an article somewhere", col2: "that can't is a four-letter word.", col3: "I tend to agree with that!" },
+                { id: 3, col1: "Imagine", col2: "you won a million euros.", col3: "Who would you tell first?" },
+                { id: 4, col1: "Can we really", col2: "compete with the Chinese?", col3: "Of course we can!" }
+            ];
+
+            const wordOrderData = [
+                { id: 1, words: ["shall", "OK", "get", "we", "started"], answer: "OK shall we get started" },
+                { id: 2, words: ["my", "today", "subject", "presentation", "of", "satisfaction", "is", "the", "customer"], answer: "the subject of my presentation today is customer satisfaction" },
+                { id: 3, words: ["will", "presentation", "thirty", "my", "about", "take", "minutes"], answer: "my presentation will take about thirty minutes" },
+                { id: 4, words: ["issues", "on", "three", "focus", "I'll"], answer: "I'll focus on three issues" },
+                { id: 5, words: ["by", "looking", "of", "status", "will", "the", "current", "project", "we", "the", "start", "at"], answer: "we will start by looking at the current status of the project" },
+                { id: 6, words: ["that", "did", "know", "popular", "China", "car", "is", "this", "very", "in", "you"], answer: "did you know that this car is very popular in China" }
+            ];
+
+            const presentationOpeningsData = [
+                { id: 'a', text: "B. Miller, product manager, FIT-Healthcare", order: 2 },
+                { id: 'b', text: "20 minutes", order: 6 },
+                { id: 'c', text: "relevant for sales staff", order: 4 },
+                { id: 'd', text: "products", order: 8 },
+                { id: 'e', text: "questions at end", order: 9 },
+                { id: 'f', text: "promotional video", order: 10 },
+                { id: 'g', text: "three parts", order: 5 },
+                { id: 'h', text: "new wellness products", order: 3 },
+                { id: 'i', text: "welcome, etc.", order: 1 },
+            ];
+
+            const attentionGrabbersData = [
+                { 
+                    id: 1, 
+                    text: "Did you know that the number of possible ways of playing the first four moves per side in a game of chess is ...?", 
+                    options: ["An interesting fact", "A rhetorical question", "An anecdote", "A problem"],
+                    answer: "An interesting fact"
+                },
+                { 
+                    id: 2, 
+                    text: "I was sitting in the waiting room at the dentist's the other day when I read something very interesting in one of the magazines that was lying there.", 
+                    options: ["An interesting fact", "A rhetorical question", "An anecdote", "A problem"],
+                    answer: "An anecdote"
+                },
+                { 
+                    id: 3, 
+                    text: "Suppose you worked in a small to medium-sized company and were responsible for making people in your company aware of health and safety issues. How would you go about it?", 
+                    options: ["An interesting fact", "A rhetorical question", "An anecdote", "A problem"],
+                    answer: "A problem"
+                },
+                { 
+                    id: 4, 
+                    text: "Why should we introduce a double quality check here at Auto Spares & Parts....? Well, I'm here today to tell you.", 
+                    options: ["An interesting fact", "A rhetorical question", "An anecdote", "A problem"],
+                    answer: "A rhetorical question"
+                }
+            ];
+            
+            // --- Activity 1: Fill in the Blanks (with Audio) ---
+            const fillInBlanksContainer = document.getElementById('fill-in-blanks-container');
+            fillInBlanksData.forEach(pres => {
+                const presDiv = document.createElement('div');
+                presDiv.className = 'mb-6';
+                presDiv.innerHTML = `<h4 class="font-semibold text-lg mb-2">${pres.presentation}</h4>`;
+                const sentencesDiv = document.createElement('div');
+                sentencesDiv.className = 'space-y-4';
+                pres.sentences.forEach(item => {
+                    const div = document.createElement('div');
+                    // Use a regex to replace various lengths of underscores
+                    const inputHtml = `<input type="text" id="blank-${item.id}" data-answer="${item.answer.toLowerCase()}" class="mx-2 p-1 transition w-40" style="width: auto; min-width: 10rem;">`;
+                    div.innerHTML = `
+                        <label for="blank-${item.id}" class="text-gray-700">${item.text.replace(/_{2,}/, inputHtml).replace('____', inputHtml)}</label>
+                        <span class="feedback"></span>
+                    `;
+                    sentencesDiv.appendChild(div);
+                });
+                presDiv.appendChild(sentencesDiv);
+                fillInBlanksContainer.appendChild(presDiv);
+            });
+
+            document.getElementById('check-fill-in-blanks').addEventListener('click', () => {
+                fillInBlanksData.forEach(pres => {
+                    pres.sentences.forEach(item => {
+                        const input = document.getElementById(`blank-${item.id}`);
+                        const feedback = input.parentElement.nextElementSibling;
+                        input.classList.remove('correct', 'incorrect');
+                        if (input.value.trim().toLowerCase() === item.answer) {
+                            input.classList.add('correct');
+                            feedback.textContent = 'Correct!';
+                            feedback.className = 'feedback correct-feedback';
+                        } else {
+                            input.classList.add('incorrect');
+                            feedback.textContent = `Incorrect. The answer is "${item.answer}".`;
+                            feedback.className = 'feedback incorrect-feedback';
+                        }
+                    });
+                });
+            });
+
+            // --- Activity 2: Drag and Drop ---
+            const phraseBank = document.getElementById('phrase-bank');
+            const categoriesContainer = document.getElementById('categories');
+
+            categorizationData.phrases.sort(() => Math.random() - 0.5).forEach(p => {
+                const div = document.createElement('div');
+                div.id = p.id;
+                div.className = 'p-2 rounded-md shadow-sm draggable';
+                div.textContent = p.text;
+                div.draggable = true;
+                phraseBank.appendChild(div);
+            });
+
+            categorizationData.categories.forEach(c => {
+                const div = document.createElement('div');
+                div.innerHTML = `<h4 class="font-semibold mb-2 text-gray-700">${c.title}</h4>`;
+                const dropZone = document.createElement('div');
+                dropZone.id = c.id;
+                dropZone.className = 'p-4 rounded-lg drop-zone space-y-2';
+                div.appendChild(dropZone);
+                categoriesContainer.appendChild(div);
+            });
+            
+            let draggedItem = null;
+
+            document.querySelectorAll('.draggable').forEach(item => {
+                item.addEventListener('dragstart', (e) => {
+                    draggedItem = e.target;
+                    setTimeout(() => e.target.style.display = 'none', 0);
+                });
+                item.addEventListener('dragend', (e) => {
+                    setTimeout(() => {
+                        draggedItem.style.display = 'block';
+                        draggedItem = null;
+                    }, 0);
+                });
+            });
+            
+            document.querySelectorAll('.drop-zone').forEach(zone => {
+                zone.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    zone.classList.add('over');
+                });
+                zone.addEventListener('dragleave', (e) => {
+                    zone.classList.remove('over');
+                });
+                zone.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    zone.classList.remove('over');
+                    if (draggedItem) {
+                        zone.appendChild(draggedItem);
+                    }
+                });
+            });
+            
+            document.getElementById('check-drag-drop').addEventListener('click', () => {
+                let allCorrect = true;
+                categorizationData.phrases.forEach(phrase => {
+                    const phraseEl = document.getElementById(phrase.id);
+                    const parentZoneId = phraseEl.parentElement.id;
+                    phraseEl.classList.remove('correct', 'incorrect');
+                    if (parentZoneId === phrase.category) {
+                        phraseEl.classList.add('correct');
+                    } else {
+                        phraseEl.classList.add('incorrect');
+                        allCorrect = false;
+                    }
+                });
+                const feedbackEl = document.getElementById('drag-drop-feedback');
+                if(allCorrect) {
+                    feedbackEl.textContent = "Excellent! All categories are correct.";
+                    feedbackEl.className = 'mt-2 text-sm font-medium correct-feedback';
+                } else {
+                    feedbackEl.textContent = "Not quite. Check the highlighted items.";
+                    feedbackEl.className = 'mt-2 text-sm font-medium incorrect-feedback';
+                }
+            });
+
+
+            // --- Activity 3: Matching ---
+            const formalContainer = document.getElementById('formal-phrases');
+            const informalContainer = document.getElementById('informal-phrases');
+            let selectedFormal = null;
+
+            const shuffledMatchingData = [...matchingData].sort(() => Math.random() - 0.5);
+
+            matchingData.forEach(pair => {
+                const formalDiv = document.createElement('div');
+                formalDiv.textContent = pair.formal;
+                formalDiv.dataset.id = pair.id;
+                formalDiv.className = 'p-3 rounded-lg match-item';
+                formalContainer.appendChild(formalDiv);
+
+                const informalDiv = document.createElement('div');
+                const randomDiv = shuffledMatchingData.pop();
+                informalDiv.textContent = randomDiv.informal;
+                informalDiv.dataset.id = randomDiv.id;
+                informalDiv.className = 'p-3 rounded-lg match-item';
+                informalContainer.appendChild(informalDiv);
+            });
+
+            formalContainer.addEventListener('click', e => {
+                if (e.target.classList.contains('match-item') && !e.target.classList.contains('matched')) {
+                    if (selectedFormal) {
+                        selectedFormal.classList.remove('selected');
+                    }
+                    selectedFormal = e.target;
+                    selectedFormal.classList.add('selected');
+                }
+            });
+
+            informalContainer.addEventListener('click', e => {
+                const feedbackEl = document.getElementById('matching-feedback');
+                if (e.target.classList.contains('match-item') && !e.target.classList.contains('matched') && selectedFormal) {
+                    if (e.target.dataset.id === selectedFormal.dataset.id) {
+                        e.target.classList.add('matched');
+                        selectedFormal.classList.add('matched');
+                        selectedFormal.classList.remove('selected');
+                        selectedFormal = null;
+                        feedbackEl.textContent = 'Correct Match!';
+                        feedbackEl.className = 'mt-4 text-center font-semibold correct-feedback';
+                    } else {
+                        feedbackEl.textContent = 'Incorrect, try again.';
+                        feedbackEl.className = 'mt-4 text-center font-semibold incorrect-feedback';
+                        selectedFormal.classList.remove('selected');
+                        selectedFormal = null;
+                    }
+                }
+                // Check if all are matched
+                if (document.querySelectorAll('.match-item.matched').length === matchingData.length * 2) {
+                    feedbackEl.textContent = 'Congratulations! You have matched all the phrases.';
+                }
+            });
+            
+            // --- Activity 4: Ordering ---
+            const orderingContainer = document.getElementById('ordering-container');
+            orderingData.sort(() => Math.random() - 0.5).forEach(item => {
+                const div = document.createElement('div');
+                div.textContent = item.text;
+                div.dataset.order = item.order;
+                div.className = 'p-3 rounded-md shadow-sm draggable';
+                div.draggable = true;
+                orderingContainer.appendChild(div);
+            });
+
+            let orderingDraggedItem = null;
+            orderingContainer.addEventListener('dragstart', e => {
+                if (e.target.classList.contains('draggable')) {
+                    orderingDraggedItem = e.target;
+                    e.target.style.opacity = '0.5';
+                }
+            });
+            orderingContainer.addEventListener('dragend', e => {
+                if (e.target.classList.contains('draggable')) {
+                    e.target.style.opacity = '1';
+                }
+            });
+            orderingContainer.addEventListener('dragover', e => {
+                e.preventDefault();
+                const afterElement = getDragAfterElement(orderingContainer, e.clientY);
+                if (afterElement == null) {
+                    orderingContainer.appendChild(orderingDraggedItem);
+                } else {
+                    orderingContainer.insertBefore(orderingDraggedItem, afterElement);
+                }
+            });
+
+            function getDragAfterElement(container, y) {
+                const draggableElements = [...container.querySelectorAll('.draggable:not([style*="opacity: 0.5"])')];
+                return draggableElements.reduce((closest, child) => {
+                    const box = child.getBoundingClientRect();
+                    const offset = y - box.top - box.height / 2;
+                    if (offset < 0 && offset > closest.offset) {
+                        return { offset: offset, element: child };
+                    } else {
+                        return closest;
+                    }
+                }, { offset: Number.NEGATIVE_INFINITY }).element;
+            }
+
+            document.getElementById('check-ordering').addEventListener('click', () => {
+                const items = orderingContainer.querySelectorAll('.draggable');
+                let allCorrect = true;
+                items.forEach((item, index) => {
+                    item.classList.remove('correct', 'incorrect');
+                    if (parseInt(item.dataset.order) === index + 1) {
+                        item.classList.add('correct');
+                    } else {
+                        item.classList.add('incorrect');
+                        allCorrect = false;
+                    }
+                });
+                const feedbackEl = document.getElementById('ordering-feedback');
+                if (allCorrect) {
+                    feedbackEl.textContent = 'Perfect! The order is correct.';
+                    feedbackEl.className = 'mt-2 text-sm font-medium correct-feedback';
+                } else {
+                    feedbackEl.textContent = 'Not quite right. Please reorder the highlighted items.';
+                    feedbackEl.className = 'mt-2 text-sm font-medium incorrect-feedback';
+                }
+            });
+
+            // --- Sentence Completion Activity ---
+            const startsContainer = document.getElementById('sentence-starts');
+            const endsContainer = document.getElementById('sentence-ends');
+            let selectedStart = null;
+
+            const shuffledEnds = [...sentenceCompletionData].sort(() => Math.random() - 0.5);
+
+            sentenceCompletionData.forEach((item, index) => {
+                const startDiv = document.createElement('div');
+                startDiv.textContent = item.start;
+                startDiv.dataset.id = item.id;
+                startDiv.className = 'p-3 rounded-lg match-item';
+                startsContainer.appendChild(startDiv);
+
+                const endDiv = document.createElement('div');
+                endDiv.textContent = shuffledEnds[index].end;
+                endDiv.dataset.id = shuffledEnds[index].id;
+                endDiv.className = 'p-3 rounded-lg match-item';
+                endsContainer.appendChild(endDiv);
+            });
+
+            startsContainer.addEventListener('click', e => {
+                if (e.target.classList.contains('match-item') && !e.target.classList.contains('matched')) {
+                    if (selectedStart) {
+                        selectedStart.classList.remove('selected');
+                    }
+                    selectedStart = e.target;
+                    selectedStart.classList.add('selected');
+                }
+            });
+
+            endsContainer.addEventListener('click', e => {
+                const feedbackEl = document.getElementById('completion-feedback');
+                if (e.target.classList.contains('match-item') && !e.target.classList.contains('matched') && selectedStart) {
+                    if (e.target.dataset.id === selectedStart.dataset.id) {
+                        e.target.classList.add('matched');
+                        selectedStart.classList.add('matched');
+                        selectedStart.classList.remove('selected');
+                        selectedStart = null;
+                        feedbackEl.textContent = 'Correct Match!';
+                        feedbackEl.className = 'mt-4 text-center font-semibold correct-feedback';
+                    } else {
+                        feedbackEl.textContent = 'Incorrect, try again.';
+                        feedbackEl.className = 'mt-4 text-center font-semibold incorrect-feedback';
+                        selectedStart.classList.remove('selected');
+                        selectedStart = null;
+                    }
+                }
+                if (document.querySelectorAll('#sentence-starts .matched').length === sentenceCompletionData.length) {
+                    feedbackEl.textContent = 'Congratulations! You have matched all the sentences.';
+                }
+            });
+
+            // --- Structuring Activity 3 ---
+            const wordBankStructuring = document.getElementById('word-bank-structuring');
+            const structuringSentencesContainer = document.getElementById('structuring-sentences');
+            
+            structuringActivityData.words.forEach(word => {
+                const wordDiv = document.createElement('div');
+                wordDiv.textContent = word;
+                wordDiv.className = 'p-2 rounded-md shadow-sm draggable';
+                wordDiv.draggable = true;
+                wordDiv.dataset.word = word;
+                wordBankStructuring.appendChild(wordDiv);
+            });
+
+            structuringActivityData.sentences.forEach(sentence => {
+                const p = document.createElement('p');
+                p.className = 'text-lg';
+                let html = sentence.text;
+                let count = 0;
+                html = html.replace(/<span data-answer='(.*?)'><\/span>/g, (match, answer) => {
+                    count++;
+                    return `<span class="drop-zone" data-answer="${answer}" id="drop-${sentence.id}-${count}"></span>`;
+                });
+                p.innerHTML = html;
+                structuringSentencesContainer.appendChild(p);
+            });
+
+            document.getElementById('check-structuring-activity').addEventListener('click', () => {
+                document.querySelectorAll('#structuring-sentences .drop-zone').forEach(zone => {
+                    zone.classList.remove('correct', 'incorrect');
+                    const droppedWord = zone.querySelector('.draggable');
+                    if (droppedWord) {
+                        if (droppedWord.dataset.word === zone.dataset.answer) {
+                            zone.classList.add('correct');
+                        } else {
+                            zone.classList.add('incorrect');
+                        }
+                    } else {
+                        zone.classList.add('incorrect');
+                    }
+                });
+            });
+
+            // --- Prepositions Practice Activity ---
+            const wordBankPrepositions = document.getElementById('word-bank-prepositions');
+            const prepositionsSentencesContainer = document.getElementById('prepositions-sentences');
+
+            prepositionsActivityData.words.forEach(word => {
+                const wordDiv = document.createElement('div');
+                wordDiv.textContent = word;
+                wordDiv.className = 'p-2 rounded-md shadow-sm draggable';
+                wordDiv.draggable = true;
+                wordDiv.dataset.word = word;
+                wordBankPrepositions.appendChild(wordDiv);
+            });
+
+            prepositionsActivityData.sentences.forEach(sentence => {
+                const p = document.createElement('p');
+                p.className = 'text-lg';
+                let html = sentence.text;
+                html = html.replace(/<span data-answer='(.*?)'><\/span>/g, (match, answer) => {
+                    return `<span class="drop-zone" data-answer="${answer}"></span>`;
+                });
+                p.innerHTML = html;
+                prepositionsSentencesContainer.appendChild(p);
+            });
+
+            document.getElementById('check-prepositions-activity').addEventListener('click', () => {
+                document.querySelectorAll('#prepositions-sentences .drop-zone').forEach(zone => {
+                    zone.classList.remove('correct', 'incorrect');
+                    const droppedWord = zone.querySelector('.draggable');
+                    if (droppedWord) {
+                        if (droppedWord.dataset.word === zone.dataset.answer) {
+                            zone.classList.add('correct');
+                        } else {
+                            zone.classList.add('incorrect');
+                        }
+                    } else {
+                        zone.classList.add('incorrect');
+                    }
+                });
+            });
+
+            // --- Listening and Ordering Activity ---
+            const listeningOrderingContainer = document.getElementById('listening-ordering-container');
+            listeningOrderingData.sort(() => Math.random() - 0.5).forEach(item => {
+                const div = document.createElement('div');
+                div.textContent = item.text;
+                div.dataset.order = item.order;
+                div.className = 'p-3 rounded-md shadow-sm draggable';
+                div.draggable = true;
+                listeningOrderingContainer.appendChild(div);
+            });
+
+            let listeningDraggedItem = null;
+            listeningOrderingContainer.addEventListener('dragstart', e => {
+                if (e.target.classList.contains('draggable')) {
+                    listeningDraggedItem = e.target;
+                    e.target.style.opacity = '0.5';
+                }
+            });
+            listeningOrderingContainer.addEventListener('dragend', e => {
+                if (e.target.classList.contains('draggable')) {
+                    e.target.style.opacity = '1';
+                }
+            });
+            listeningOrderingContainer.addEventListener('dragover', e => {
+                e.preventDefault();
+                const afterElement = getDragAfterElement(listeningOrderingContainer, e.clientY);
+                if (afterElement == null) {
+                    listeningOrderingContainer.appendChild(listeningDraggedItem);
+                } else {
+                    listeningOrderingContainer.insertBefore(listeningDraggedItem, afterElement);
+                }
+            });
+
+            document.getElementById('check-listening-order').addEventListener('click', () => {
+                const items = listeningOrderingContainer.querySelectorAll('.draggable');
+                let allCorrect = true;
+                items.forEach((item, index) => {
+                    item.classList.remove('correct', 'incorrect');
+                    if (parseInt(item.dataset.order) === index + 1) {
+                        item.classList.add('correct');
+                    } else {
+                        item.classList.add('incorrect');
+                        allCorrect = false;
+                    }
+                });
+                const feedbackEl = document.getElementById('listening-ordering-feedback');
+                if (allCorrect) {
+                    feedbackEl.textContent = 'Perfect! The order is correct.';
+                    feedbackEl.className = 'mt-2 text-sm font-medium correct-feedback';
+                } else {
+                    feedbackEl.textContent = 'Not quite right. Please reorder the highlighted items.';
+                    feedbackEl.className = 'mt-2 text-sm font-medium incorrect-feedback';
+                }
+            });
+
+            // --- Point Ordering Activity ---
+            const pointOrderingContainer = document.getElementById('point-ordering-container');
+            pointOrderingData.sort(() => Math.random() - 0.5).forEach(item => {
+                const div = document.createElement('div');
+                div.textContent = item.text;
+                div.dataset.order = item.order;
+                div.className = 'p-3 rounded-md shadow-sm draggable';
+                div.draggable = true;
+                pointOrderingContainer.appendChild(div);
+            });
+
+            let pointDraggedItem = null;
+            pointOrderingContainer.addEventListener('dragstart', e => {
+                if (e.target.classList.contains('draggable')) {
+                    pointDraggedItem = e.target;
+                    e.target.style.opacity = '0.5';
+                }
+            });
+            pointOrderingContainer.addEventListener('dragend', e => {
+                if (e.target.classList.contains('draggable')) {
+                    e.target.style.opacity = '1';
+                }
+            });
+            pointOrderingContainer.addEventListener('dragover', e => {
+                e.preventDefault();
+                const afterElement = getDragAfterElement(pointOrderingContainer, e.clientY);
+                if (afterElement == null) {
+                    pointOrderingContainer.appendChild(pointDraggedItem);
+                } else {
+                    pointOrderingContainer.insertBefore(pointDraggedItem, afterElement);
+                }
+            });
+
+            document.getElementById('check-point-order').addEventListener('click', () => {
+                const items = pointOrderingContainer.querySelectorAll('.draggable');
+                let allCorrect = true;
+                items.forEach((item, index) => {
+                    item.classList.remove('correct', 'incorrect');
+                    if (parseInt(item.dataset.order) === index + 1) {
+                        item.classList.add('correct');
+                    } else {
+                        item.classList.add('incorrect');
+                        allCorrect = false;
+                    }
+                });
+                const feedbackEl = document.getElementById('point-ordering-feedback');
+                if (allCorrect) {
+                    feedbackEl.textContent = 'Perfect! The order is correct.';
+                    feedbackEl.className = 'mt-2 text-sm font-medium correct-feedback';
+                } else {
+                    feedbackEl.textContent = 'Not quite right. Please reorder the highlighted items.';
+                    feedbackEl.className = 'mt-2 text-sm font-medium incorrect-feedback';
+                }
+            });
+
+            // --- Replacing Phrases Activity ---
+            const wordBankReplacing = document.getElementById('word-bank-replacing');
+            const replacingSentencesContainer = document.getElementById('replacing-sentences');
+
+            replacingPhrasesData.words.forEach(word => {
+                const wordDiv = document.createElement('div');
+                wordDiv.textContent = word;
+                wordDiv.className = 'p-2 rounded-md shadow-sm draggable';
+                wordDiv.draggable = true;
+                wordDiv.dataset.word = word;
+                wordBankReplacing.appendChild(wordDiv);
+            });
+
+            replacingPhrasesData.sentences.forEach(sentence => {
+                const p = document.createElement('p');
+                p.className = 'text-lg';
+                let html = sentence.text.replace(/<span class='highlight'>(.*?)<\/span>/, (match, content) => {
+                    return `<span class="highlight">${content}</span> → <span class="drop-zone" data-answer="${sentence.answer}"></span>`;
+                });
+                p.innerHTML = html;
+                replacingSentencesContainer.appendChild(p);
+            });
+
+            document.getElementById('check-replacing-activity').addEventListener('click', () => {
+                document.querySelectorAll('#replacing-sentences .drop-zone').forEach(zone => {
+                    zone.classList.remove('correct', 'incorrect');
+                    const droppedWord = zone.querySelector('.draggable');
+                    if (droppedWord) {
+                        if (droppedWord.dataset.word === zone.dataset.answer) {
+                            zone.classList.add('correct');
+                        } else {
+                            zone.classList.add('incorrect');
+                        }
+                    } else {
+                        zone.classList.add('incorrect');
+                    }
+                });
+            });
+
+            // --- Matching Sentences Activity ---
+            const matchingStartsContainer = document.getElementById('matching-starts');
+            const matchingEndsContainer = document.getElementById('matching-ends');
+            let selectedMatchingStart = null;
+
+            const shuffledMatchingEnds = [...matchingSentencesData].sort(() => Math.random() - 0.5);
+
+            matchingSentencesData.forEach((item, index) => {
+                const startDiv = document.createElement('div');
+                startDiv.textContent = item.start;
+                startDiv.dataset.id = item.id;
+                startDiv.className = 'p-3 rounded-lg match-item';
+                matchingStartsContainer.appendChild(startDiv);
+
+                const endDiv = document.createElement('div');
+                endDiv.textContent = shuffledMatchingEnds[index].end;
+                endDiv.dataset.id = shuffledMatchingEnds[index].id;
+                endDiv.className = 'p-3 rounded-lg match-item';
+                matchingEndsContainer.appendChild(endDiv);
+            });
+
+            matchingStartsContainer.addEventListener('click', e => {
+                if (e.target.classList.contains('match-item') && !e.target.classList.contains('matched')) {
+                    if (selectedMatchingStart) {
+                        selectedMatchingStart.classList.remove('selected');
+                    }
+                    selectedMatchingStart = e.target;
+                    selectedMatchingStart.classList.add('selected');
+                }
+            });
+
+            matchingEndsContainer.addEventListener('click', e => {
+                const feedbackEl = document.getElementById('matching-sentences-feedback');
+                if (e.target.classList.contains('match-item') && !e.target.classList.contains('matched') && selectedMatchingStart) {
+                    if (e.target.dataset.id === selectedMatchingStart.dataset.id) {
+                        e.target.classList.add('matched');
+                        selectedMatchingStart.classList.add('matched');
+                        selectedMatchingStart.classList.remove('selected');
+                        selectedMatchingStart = null;
+                        feedbackEl.textContent = 'Correct Match!';
+                        feedbackEl.className = 'mt-4 text-center font-semibold correct-feedback';
+                    } else {
+                        feedbackEl.textContent = 'Incorrect, try again.';
+                        feedbackEl.className = 'mt-4 text-center font-semibold incorrect-feedback';
+                        selectedMatchingStart.classList.remove('selected');
+                        selectedMatchingStart = null;
+                    }
+                }
+                if (document.querySelectorAll('#matching-starts .matched').length === matchingSentencesData.length) {
+                    feedbackEl.textContent = 'Congratulations! You have matched all the sentences.';
+                }
+            });
+
+            // --- Listening Completion Activity ---
+            const listeningCompletionSentences = document.getElementById('listening-completion-sentences');
+            listeningCompletionData.forEach(item => {
+                const div = document.createElement('div');
+                div.innerHTML = `<p class="text-lg">${item.text}</p>`;
+                listeningCompletionSentences.appendChild(div);
+            });
+
+            document.getElementById('check-listening-completion').addEventListener('click', () => {
+                listeningCompletionSentences.querySelectorAll('input[type="text"]').forEach(input => {
+                    input.classList.remove('correct', 'incorrect');
+                    if (input.value.trim().toLowerCase() === input.dataset.answer) {
+                        input.classList.add('correct');
+                    } else {
+                        input.classList.add('incorrect');
+                    }
+                });
+            });
+
+            // --- Attention-Grabbing Openings Activity ---
+            const openingsCol1 = document.getElementById('openings-col-1');
+            const openingsCol2 = document.getElementById('openings-col-2');
+            const openingsCol3 = document.getElementById('openings-col-3');
+            let selectedOpening = [null, null, null];
+
+            const shuffledCol2 = [...attentionGrabbingOpeningsData].sort(() => Math.random() - 0.5);
+            const shuffledCol3 = [...attentionGrabbingOpeningsData].sort(() => Math.random() - 0.5);
+
+            attentionGrabbingOpeningsData.forEach((item, index) => {
+                const div1 = document.createElement('div');
+                div1.textContent = item.col1;
+                div1.dataset.id = item.id;
+                div1.dataset.col = 1;
+                div1.className = 'p-3 rounded-lg match-item';
+                openingsCol1.appendChild(div1);
+
+                const div2 = document.createElement('div');
+                div2.textContent = shuffledCol2[index].col2;
+                div2.dataset.id = shuffledCol2[index].id;
+                div2.dataset.col = 2;
+                div2.className = 'p-3 rounded-lg match-item';
+                openingsCol2.appendChild(div2);
+
+                const div3 = document.createElement('div');
+                div3.textContent = shuffledCol3[index].col3;
+                div3.dataset.id = shuffledCol3[index].id;
+                div3.dataset.col = 3;
+                div3.className = 'p-3 rounded-lg match-item';
+                openingsCol3.appendChild(div3);
+            });
+
+            [openingsCol1, openingsCol2, openingsCol3].forEach(col => {
+                col.addEventListener('click', e => {
+                    if (e.target.classList.contains('match-item') && !e.target.classList.contains('matched')) {
+                        const colNum = parseInt(e.target.dataset.col);
+                        if(selectedOpening[colNum - 1]) {
+                            selectedOpening[colNum - 1].classList.remove('selected');
+                        }
+                        selectedOpening[colNum - 1] = e.target;
+                        e.target.classList.add('selected');
+
+                        const feedbackEl = document.getElementById('attention-openings-feedback');
+                        if (selectedOpening.every(item => item !== null)) {
+                            if (selectedOpening[0].dataset.id === selectedOpening[1].dataset.id && selectedOpening[1].dataset.id === selectedOpening[2].dataset.id) {
+                                selectedOpening.forEach(item => {
+                                    item.classList.add('matched');
+                                    item.classList.remove('selected');
+                                });
+                                feedbackEl.textContent = 'Correct Match!';
+                                feedbackEl.className = 'mt-4 text-center font-semibold correct-feedback';
+                            } else {
+                                feedbackEl.textContent = 'Incorrect, try again.';
+                                feedbackEl.className = 'mt-4 text-center font-semibold incorrect-feedback';
+                                selectedOpening.forEach(item => item.classList.remove('selected'));
+                            }
+                            selectedOpening = [null, null, null];
+                        }
+
+                        if (document.querySelectorAll('#openings-col-1 .matched').length === attentionGrabbingOpeningsData.length) {
+                             feedbackEl.textContent = 'Congratulations! You have matched all the openings.';
+                        }
+                    }
+                });
+            });
+            
+            // --- Activity 5: Attention Grabbers ---
+            const grabbersContainer = document.getElementById('attention-grabbers-container');
+            attentionGrabbersData.forEach(q => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'p-4 border border-gray-200 rounded-lg';
+                questionDiv.innerHTML = `<p class="italic text-gray-700 mb-4">"${q.text}"</p>`;
+                
+                const optionsDiv = document.createElement('div');
+                optionsDiv.className = 'space-y-2';
+                optionsDiv.id = `options-${q.id}`;
+                
+                q.options.forEach(option => {
+                    optionsDiv.innerHTML += `
+                        <label class="flex items-center p-2 rounded-md hover:bg-gray-100 cursor-pointer">
+                            <input type="radio" name="grabber-${q.id}" value="${option}" class="mr-3">
+                            <span>${option}</span>
+                        </label>
+                    `;
+                });
+                
+                questionDiv.appendChild(optionsDiv);
+                const feedback = document.createElement('p');
+                feedback.className = 'feedback mt-2';
+                questionDiv.appendChild(feedback);
+                grabbersContainer.appendChild(questionDiv);
+            });
+
+            document.getElementById('check-attention-grabbers').addEventListener('click', () => {
+                attentionGrabbersData.forEach(q => {
+                    const container = document.getElementById(`options-${q.id}`);
+                    const feedback = container.parentElement.querySelector('.feedback');
+                    const selected = document.querySelector(`input[name="grabber-${q.id}"]:checked`);
+                    
+                    container.querySelectorAll('label').forEach(l => {
+                        const parent = l.parentElement;
+                        parent.classList.remove('correct', 'incorrect');
+                        l.classList.remove('correct', 'incorrect');
+                    });
+
+                    if (selected) {
+                        if (selected.value === q.answer) {
+                            selected.closest('label').classList.add('correct');
+                            feedback.textContent = 'Correct!';
+                            feedback.className = 'feedback mt-2 correct-feedback';
+                        } else {
+                            selected.closest('label').classList.add('incorrect');
+                            feedback.textContent = `Not quite. The correct answer is "${q.answer}".`;
+                            feedback.className = 'feedback mt-2 incorrect-feedback';
+                        }
+                    } else {
+                        feedback.textContent = 'Please select an answer.';
+                        feedback.className = 'feedback mt-2 incorrect-feedback';
+                    }
+                });
+            });
+
+            // --- Word Order Practice ---
+            const wordOrderContainer = document.getElementById('word-order-container');
+            wordOrderData.forEach(item => {
+                const div = document.createElement('div');
+                div.innerHTML = `<h4 class="font-semibold mb-2">Sentence ${item.id}</h4>`;
+                
+                const wordBank = document.createElement('div');
+                wordBank.className = 'flex flex-wrap gap-2 bg-[#f5f0e9] p-4 rounded-lg mb-4';
+                
+                item.words.sort(() => Math.random() - 0.5).forEach(word => {
+                    const wordDiv = document.createElement('div');
+                    wordDiv.textContent = word;
+                    wordDiv.className = 'p-2 rounded-md shadow-sm draggable';
+                    wordDiv.draggable = true;
+                    wordBank.appendChild(wordDiv);
+                });
+
+                const dropZone = document.createElement('div');
+                dropZone.className = 'p-4 rounded-lg drop-zone w-full flex flex-wrap gap-2';
+                dropZone.dataset.answer = item.answer;
+                
+                div.appendChild(wordBank);
+                div.appendChild(dropZone);
+                wordOrderContainer.appendChild(div);
+            });
+
+            document.getElementById('check-word-order').addEventListener('click', () => {
+                wordOrderContainer.querySelectorAll('.drop-zone').forEach(zone => {
+                    const words = Array.from(zone.querySelectorAll('.draggable')).map(el => el.textContent);
+                    const userAnswer = words.join(' ').toLowerCase().replace(/[.,?]/g, '');
+                    const correctAnswer = zone.dataset.answer.toLowerCase().replace(/[.,?]/g, '');
+                    zone.classList.remove('correct', 'incorrect');
+                    if (userAnswer === correctAnswer) {
+                        zone.classList.add('correct');
+                    } else {
+                        zone.classList.add('incorrect');
+                    }
+                });
+            });
+
+             // --- Presentation Openings Activity ---
+            const presentationOpeningsContainer = document.getElementById('presentation-openings-container');
+            presentationOpeningsData.sort(() => Math.random() - 0.5).forEach(item => {
+                const div = document.createElement('div');
+                div.textContent = item.text;
+                div.dataset.order = item.order;
+                div.className = 'p-3 rounded-md shadow-sm draggable';
+                div.draggable = true;
+                presentationOpeningsContainer.appendChild(div);
+            });
+
+            let presentationDraggedItem = null;
+            presentationOpeningsContainer.addEventListener('dragstart', e => {
+                if (e.target.classList.contains('draggable')) {
+                    presentationDraggedItem = e.target;
+                    e.target.style.opacity = '0.5';
+                }
+            });
+            presentationOpeningsContainer.addEventListener('dragend', e => {
+                if (e.target.classList.contains('draggable')) {
+                    e.target.style.opacity = '1';
+                }
+            });
+            presentationOpeningsContainer.addEventListener('dragover', e => {
+                e.preventDefault();
+                const afterElement = getDragAfterElement(presentationOpeningsContainer, e.clientY);
+                if (afterElement == null) {
+                    presentationOpeningsContainer.appendChild(presentationDraggedItem);
+                } else {
+                    presentationOpeningsContainer.insertBefore(presentationDraggedItem, afterElement);
+                }
+            });
+
+            document.getElementById('check-presentation-openings').addEventListener('click', () => {
+                const items = presentationOpeningsContainer.querySelectorAll('.draggable');
+                let allCorrect = true;
+                items.forEach((item, index) => {
+                    item.classList.remove('correct', 'incorrect');
+                    if (parseInt(item.dataset.order) === index + 1) {
+                        item.classList.add('correct');
+                    } else {
+                        item.classList.add('incorrect');
+                        allCorrect = false;
+                    }
+                });
+                const feedbackEl = document.getElementById('presentation-openings-feedback');
+                if (allCorrect) {
+                    feedbackEl.textContent = 'Perfect! The order is correct.';
+                    feedbackEl.className = 'mt-2 text-sm font-medium correct-feedback';
+                } else {
+                    feedbackEl.textContent = 'Not quite right. Please reorder the highlighted items.';
+                    feedbackEl.className = 'mt-2 text-sm font-medium incorrect-feedback';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
