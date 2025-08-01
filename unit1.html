@@ -163,31 +163,50 @@
         <header class="main-header sticky top-0 z-50">
             <div class="container mx-auto px-6 py-4 flex justify-between items-center">
                 <h1 class="text-2xl font-bold">English for Presentations: Unit 1</h1>
-                <nav class="hidden md:flex space-x-4">
-                    <a href="#starter">Starter</a>
-                    <a href="#activity-1">Welcoming</a>
-                    <a href="#activity-2">Structuring</a>
-                    <a href="#activity-3">Ordering</a>
-                    <a href="#structuring-info-1">Info (1)</a>
-                    <a href="#sentence-completion">Completion</a>
-                    <a href="#structuring-info-2">Info (2)</a>
-                    <a href="#structuring-activity-3">Structuring (3)</a>
-                    <a href="#prepositions-practice">Prepositions</a>
-                    <a href="#listening-ordering">Listen & Order</a>
-                    <a href="#point-ordering">Point Order</a>
-                    <a href="#replacing-phrases">Replacing</a>
-                    <a href="#organization-info">Organization</a>
-                    <a href="#matching-sentences">Matching</a>
-                    <a href="#listening-completion">Listen & Complete</a>
-                    <a href="#attention-grabbing-openings">Openings</a>
-                    <a href="#activity-5">Attention Grabbers</a>
-                    <a href="#word-order-practice">Word Order</a>
-                    <a href="#checklist">Checklist</a>
-                    <a href="#presentation-openings">Openings</a>
-                    <a href="#dealing-with-nervousness">Nervousness</a>
-                </nav>
+                <button id="hamburger-btn" class="p-2 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                    <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
             </div>
         </header>
+
+        <!-- Slide-out Menu -->
+        <div id="menu-drawer" class="fixed top-0 right-[-300px] h-full w-[300px] bg-[#5a4435] shadow-lg z-[100] transition-all duration-300 ease-in-out p-4">
+            <div class="flex justify-end mb-4">
+                <button id="close-btn" class="p-2 text-white">
+                     <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <nav id="mobile-nav" class="flex flex-col space-y-2">
+                <a href="#starter" class="text-lg text-white hover:bg-[#7e5642] p-2 rounded-md">Starter</a>
+                <a href="#activity-1" class="text-lg text-white hover:bg-[#7e5642] p-2 rounded-md">Welcoming</a>
+                <a href="#activity-2" class="text-lg text-white hover:bg-[#7e5642] p-2 rounded-md">Structuring</a>
+                <a href="#activity-3" class="text-lg text-white hover:bg-[#7e5642] p-2 rounded-md">Ordering</a>
+                <a href="#structuring-info-1" class="text-lg text-white hover:bg-[#7e5642] p-2 rounded-md">Info (1)</a>
+                <a href="#sentence-completion" class="text-lg text-white hover:bg-[#7e5642] p-2 rounded-md">Completion</a>
+                <a href="#structuring-info-2" class="text-lg text-white hover:bg-[#7e5642] p-2 rounded-md">Info (2)</a>
+                <a href="#structuring-activity-3" class="text-lg text-white hover:bg-[#7e5642] p-2 rounded-md">Structuring (3)</a>
+                <a href="#prepositions-practice" class="text-lg text-white hover:bg-[#7e5642] p-2 rounded-md">Prepositions</a>
+                <a href="#listening-ordering" class="text-lg text-white hover:bg-[#7e5642] p-2 rounded-md">Listen & Order</a>
+                <a href="#point-ordering" class="text-lg text-white hover:bg-[#7e5642] p-2 rounded-md">Point Order</a>
+                <a href="#replacing-phrases" class="text-lg text-white hover:bg-[#7e5642] p-2 rounded-md">Replacing</a>
+                <a href="#organization-info" class="text-lg text-white hover:bg-[#7e5642] p-2 rounded-md">Organization</a>
+                <a href="#matching-sentences" class="text-lg text-white hover:bg-[#7e5642] p-2 rounded-md">Matching</a>
+                <a href="#listening-completion" class="text-lg text-white hover:bg-[#7e5642] p-2 rounded-md">Listen & Complete</a>
+                <a href="#attention-grabbing-openings" class="text-lg text-white hover:bg-[#7e5642] p-2 rounded-md">Openings</a>
+                <a href="#activity-5" class="text-lg text-white hover:bg-[#7e5642] p-2 rounded-md">Attention Grabbers</a>
+                <a href="#word-order-practice" class="text-lg text-white hover:bg-[#7e5642] p-2 rounded-md">Word Order</a>
+                <a href="#checklist" class="text-lg text-white hover:bg-[#7e5642] p-2 rounded-md">Checklist</a>
+                <a href="#presentation-openings" class="text-lg text-white hover:bg-[#7e5642] p-2 rounded-md">Openings</a>
+                <a href="#dealing-with-nervousness" class="text-lg text-white hover:bg-[#7e5642] p-2 rounded-md">Nervousness</a>
+            </nav>
+        </div>
+
+        <!-- Overlay -->
+        <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-[99] hidden"></div>
 
         <main class="container mx-auto px-6 py-8">
 
@@ -567,17 +586,6 @@
                 </ul>
             </section>
 
-            <!-- Presentation Openings -->
-            <section id="presentation-openings" class="activity-card">
-                <h3 class="text-2xl font-semibold mb-4">Presentation Openings</h3>
-                <p class="text-gray-700 mb-6">Put the notes in the correct order, then prepare two openings of a presentation: a formal one and a less formal one.</p>
-                <div id="presentation-openings-container" class="p-4 rounded-lg space-y-2" style="background-color: #e8d9c6;">
-                    <!-- Draggable notes for ordering -->
-                </div>
-                <button id="check-presentation-openings" class="mt-6 btn-primary">Check Order</button>
-                <p id="presentation-openings-feedback" class="mt-2 text-sm font-medium"></p>
-            </section>
-
             <!-- Dealing with Nervousness -->
             <section id="dealing-with-nervousness" class="activity-card">
                 <h3 class="text-2xl font-semibold mb-4">Dealing with Nervousness</h3>
@@ -622,10 +630,36 @@
             const startBtn = document.getElementById('start-activities-btn');
             const titleSlide = document.getElementById('title-slide');
             const mainContent = document.getElementById('main-content');
+            const hamburgerBtn = document.getElementById('hamburger-btn');
+            const closeBtn = document.getElementById('close-btn');
+            const menuDrawer = document.getElementById('menu-drawer');
+            const overlay = document.getElementById('overlay');
+            const navLinks = document.querySelectorAll('#mobile-nav a');
+
 
             startBtn.addEventListener('click', () => {
                 titleSlide.style.display = 'none';
                 mainContent.style.display = 'block';
+            });
+
+            function openMenu() {
+                menuDrawer.classList.remove('right-[-300px]');
+                menuDrawer.classList.add('right-0');
+                overlay.classList.remove('hidden');
+            }
+
+            function closeMenu() {
+                menuDrawer.classList.add('right-[-300px]');
+                menuDrawer.classList.remove('right-0');
+                overlay.classList.add('hidden');
+            }
+
+            hamburgerBtn.addEventListener('click', openMenu);
+            closeBtn.addEventListener('click', closeMenu);
+            overlay.addEventListener('click', closeMenu);
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', closeMenu);
             });
 
 
@@ -802,18 +836,6 @@
                 { id: 4, words: ["issues", "on", "three", "focus", "I'll"], answer: "I'll focus on three issues" },
                 { id: 5, words: ["by", "looking", "of", "status", "will", "the", "current", "project", "we", "the", "start", "at"], answer: "we will start by looking at the current status of the project" },
                 { id: 6, words: ["that", "did", "know", "popular", "China", "car", "is", "this", "very", "in", "you"], answer: "did you know that this car is very popular in China" }
-            ];
-
-            const presentationOpeningsData = [
-                { id: 'a', text: "B. Miller, product manager, FIT-Healthcare", order: 2 },
-                { id: 'b', text: "20 minutes", order: 6 },
-                { id: 'c', text: "relevant for sales staff", order: 4 },
-                { id: 'd', text: "products", order: 8 },
-                { id: 'e', text: "questions at end", order: 9 },
-                { id: 'f', text: "promotional video", order: 10 },
-                { id: 'g', text: "three parts", order: 5 },
-                { id: 'h', text: "new wellness products", order: 3 },
-                { id: 'i', text: "welcome, etc.", order: 1 },
             ];
 
             const attentionGrabbersData = [
@@ -1602,61 +1624,6 @@
                         zone.classList.add('incorrect');
                     }
                 });
-            });
-
-             // --- Presentation Openings Activity ---
-            const presentationOpeningsContainer = document.getElementById('presentation-openings-container');
-            presentationOpeningsData.sort(() => Math.random() - 0.5).forEach(item => {
-                const div = document.createElement('div');
-                div.textContent = item.text;
-                div.dataset.order = item.order;
-                div.className = 'p-3 rounded-md shadow-sm draggable';
-                div.draggable = true;
-                presentationOpeningsContainer.appendChild(div);
-            });
-
-            let presentationDraggedItem = null;
-            presentationOpeningsContainer.addEventListener('dragstart', e => {
-                if (e.target.classList.contains('draggable')) {
-                    presentationDraggedItem = e.target;
-                    e.target.style.opacity = '0.5';
-                }
-            });
-            presentationOpeningsContainer.addEventListener('dragend', e => {
-                if (e.target.classList.contains('draggable')) {
-                    e.target.style.opacity = '1';
-                }
-            });
-            presentationOpeningsContainer.addEventListener('dragover', e => {
-                e.preventDefault();
-                const afterElement = getDragAfterElement(presentationOpeningsContainer, e.clientY);
-                if (afterElement == null) {
-                    presentationOpeningsContainer.appendChild(presentationDraggedItem);
-                } else {
-                    presentationOpeningsContainer.insertBefore(presentationDraggedItem, afterElement);
-                }
-            });
-
-            document.getElementById('check-presentation-openings').addEventListener('click', () => {
-                const items = presentationOpeningsContainer.querySelectorAll('.draggable');
-                let allCorrect = true;
-                items.forEach((item, index) => {
-                    item.classList.remove('correct', 'incorrect');
-                    if (parseInt(item.dataset.order) === index + 1) {
-                        item.classList.add('correct');
-                    } else {
-                        item.classList.add('incorrect');
-                        allCorrect = false;
-                    }
-                });
-                const feedbackEl = document.getElementById('presentation-openings-feedback');
-                if (allCorrect) {
-                    feedbackEl.textContent = 'Perfect! The order is correct.';
-                    feedbackEl.className = 'mt-2 text-sm font-medium correct-feedback';
-                } else {
-                    feedbackEl.textContent = 'Not quite right. Please reorder the highlighted items.';
-                    feedbackEl.className = 'mt-2 text-sm font-medium incorrect-feedback';
-                }
             });
         });
     </script>
